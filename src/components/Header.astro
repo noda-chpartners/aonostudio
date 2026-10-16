@@ -5,13 +5,18 @@ import { nav, site } from '../data/site';
 ---
 
 <header class="header">
-  <a class="header__logo" href="#top">
-    <Image src={logo} alt="Aono Studio" height={40} densities={[1, 2]} />
-  </a>
+  <h1 class="header__logo">
+    <a href="#top">
+      <Image src={logo} alt="AONO STUDIO" height={40} densities={[1, 2]} loading="eager" />
+    </a>
+  </h1>
   <nav class="header__nav" aria-label="メイン">
     {
       nav.map((item) => (
-        <a href={item.href}>{item.en}</a>
+        <a href={item.href}>
+          {item.en}
+          <span class="visually-hidden">{item.ja}</span>
+        </a>
       ))
     }
   </nav>
@@ -64,9 +69,12 @@ import { nav, site } from '../data/site';
   }
 
   .header__logo {
-    display: flex;
-    align-items: center;
     line-height: 0;
+
+    a {
+      display: flex;
+      align-items: center;
+    }
 
     img {
       height: 40px;

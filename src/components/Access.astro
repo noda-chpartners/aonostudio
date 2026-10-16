@@ -8,11 +8,11 @@ const mapSrc = `https://maps.google.com/maps?q=${encodeURIComponent(site.mapQuer
   <div class="access__copy">
     <p class="access__label">Access</p>
     <h2>アクセス</h2>
-    <div class="access__address">
+    <address class="access__address">
       <p class="access__line">{site.postal}</p>
       <p class="access__line">{site.address[0]}</p>
       <p class="access__line">{site.address[1]}</p>
-    </div>
+    </address>
     <p class="access__line access__station">{site.access}</p>
     <div class="access__hours">
       <p class="access__line">{site.hours}</p>

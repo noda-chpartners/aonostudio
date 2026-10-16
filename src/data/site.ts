@@ -1,8 +1,15 @@
 export const site = {
+  url: 'https://aono-studio.pages.dev',
   name: 'AONO STUDIO',
-  title: 'AONO STUDIO | 青野 豊',
+  title: 'AONO STUDIO | 目黒の撮影事務所 青野豊',
   description:
-    '東京都目黒区の撮影事務所 AONO STUDIO。フォトグラファー青野豊が、商品・人物・インテリアの撮影からレタッチ、デジタル納品までを一貫して手がけます。',
+    '東京都目黒区の撮影事務所 AONO STUDIO。フォトグラファー青野豊が、商品・美容・ファッション・人物・料理・インテリアの撮影からレタッチ、デジタル納品まで一貫して手がけます。目黒駅徒歩7分。',
+  ogImage: {
+    path: '/ogp.png',
+    width: 1200,
+    height: 628,
+    alt: 'AONO STUDIO',
+  },
   representative: '青野　豊',
   representativeKana: 'アオノ　ユタカ',
   phones: [

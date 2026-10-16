@@ -35,7 +35,7 @@ const pad = (value: number) => String(value).padStart(2, '0');
                         <Image
                           class="chapter__photo"
                           src={image}
-                          alt={label}
+                          alt={`${category.ja}の撮影 ${label}`}
                           widths={[640, 1200, 1800]}
                           sizes="(max-width: 1024px) 86vw, 70vh"
                           loading="lazy"
