@@ -1,0 +1,117 @@
+---
+import { site } from '../data/site';
+---
+
+<section class="contact" id="contact">
+  <div class="contact__grid">
+    <div class="contact__copy">
+      <p class="contact__label">Contact</p>
+      <h2>お問い合わせ</h2>
+      {site.contact.map((line) => <p class="contact__line contact__lead">{line}</p>)}
+    </div>
+    <div class="contact__phones">
+      {
+        site.phones.map((phone) => (
+          <p class="contact__line contact__phone">
+            <a href={`tel:${phone.tel}`}>{phone.display}</a>
+          </p>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+  .contact {
+    background: $ink;
+    scroll-margin-top: var(--header-h);
+  }
+
+  .contact__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.45fr) minmax(16rem, 0.7fr);
+    gap: 0 4.5rem;
+    align-items: end;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 7rem var(--page-pad) 6.5rem;
+  }
+
+  .contact__label {
+    margin: 0;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    line-height: 1.4;
+  }
+
+  .contact h2 {
+    margin: 0.45rem 0 1.75rem;
+    font-family: $mincho;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  .contact__lead {
+    margin: 0;
+    font-family: $mincho;
+    font-size: clamp(1rem, 1.6vw, 1.3rem);
+    font-weight: 500;
+    line-height: 2.15;
+
+    & + & {
+      margin-top: 0.85rem;
+    }
+  }
+
+  .contact__phones {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+    margin: 0;
+    padding-left: 3rem;
+    border-left: 1px solid rgba($paper, 0.22);
+  }
+
+  .contact__phone {
+    margin: 0;
+    padding-bottom: 0.85rem;
+    border-bottom: 1px solid rgba($paper, 0.22);
+    font-family: $serif;
+    font-size: clamp(1.85rem, 2.6vw, 2.75rem);
+    line-height: 1.15;
+    letter-spacing: 0.02em;
+
+    a {
+      text-decoration: none;
+    }
+  }
+
+  @include tablet {
+    .contact__grid {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 2.5rem 0;
+      padding: 4rem var(--page-pad);
+    }
+
+    .contact h2 {
+      margin-bottom: 1.25rem;
+    }
+
+    .contact__lead {
+      font-size: 1.05rem;
+    }
+
+    .contact__phones {
+      padding: 2rem 0 0;
+      border-left: 0;
+      border-top: 1px solid rgba($paper, 0.22);
+    }
+
+    .contact__phone {
+      font-size: 1.85rem;
+    }
+  }
+</style>

@@ -1,0 +1,95 @@
+---
+import { Image } from 'astro:assets';
+import hero from '../assets/room/room01.jpg';
+---
+
+<section class="hero" id="top">
+  <div class="hero__side">
+    <span class="hero__line" aria-hidden="true"></span>
+    <p class="hero__vertical">MEGURO — SINCE 1981</p>
+  </div>
+  <div class="hero__frame">
+    <div class="hero__clip">
+      <div class="hero__zoom">
+        <Image
+          class="hero__img"
+          src={hero}
+          alt="インテリアの撮影。革のソファがある部屋"
+          widths={[800, 1400, 2000]}
+          sizes="(max-width: 1024px) 92vw, 90vw"
+          loading="eager"
+          fetchpriority="high"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+  .hero {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    height: calc(100svh - var(--header-h));
+    padding-right: var(--frame);
+    box-sizing: border-box;
+    min-width: 0;
+  }
+
+  .hero__side {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 0 0.7rem 0.75rem;
+  }
+
+  .hero__vertical {
+    margin: 0;
+    writing-mode: vertical-rl;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    line-height: 1;
+  }
+
+  .hero__line {
+    display: block;
+    width: 1px;
+    height: 16px;
+    background: $paper;
+  }
+
+  .hero__frame {
+    min-width: 0;
+    min-height: 0;
+    height: 100%;
+  }
+
+  .hero__clip,
+  .hero__zoom {
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero__clip {
+    overflow: hidden;
+  }
+
+  .hero__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @include tablet {
+    .hero__side {
+      gap: 8px;
+      padding: 0 0.45rem 0.4rem;
+    }
+
+    .hero__line {
+      height: 10px;
+    }
+  }
+</style>

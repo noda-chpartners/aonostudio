@@ -1,0 +1,205 @@
+---
+import { Image } from 'astro:assets';
+import portrait from '../assets/profile.jpg';
+import { profile, services, timeline } from '../data/data';
+---
+
+<section class="profile" id="profile">
+  <div class="profile__grid">
+    <figure class="profile__photo">
+      <Image
+        src={portrait}
+        alt="AONO STUDIO 代表 青野豊"
+        widths={[640, 960, 1400]}
+        sizes="(max-width: 1024px) 100vw, 40vw"
+      />
+    </figure>
+    <div class="profile__body">
+      <p class="profile__label">{profile.label}</p>
+      <h2>{profile.ja}</h2>
+      <p class="profile__name">
+        {profile.name}
+        <span>{profile.kana}</span>
+      </p>
+      <div class="profile__copy">
+        <p class="profile__lead">{profile.lead}</p>
+        {profile.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+      <ol class="timeline">
+        {
+          timeline.map((item) => (
+            <li>
+              <span class="timeline__year">{item.year}</span>
+              <span class="timeline__text">{item.text}</span>
+            </li>
+          ))
+        }
+      </ol>
+      <ul class="services">
+        {services.map((service) => <li>{service}</li>)}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+  .profile {
+    position: relative;
+    padding: 6rem var(--page-pad);
+    background: $ink;
+    scroll-margin-top: var(--header-h);
+  }
+
+  .profile__grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 32px;
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+
+  .profile__photo {
+    grid-column: 1 / 6;
+    margin: 0;
+
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  .profile__body {
+    grid-column: 7 / 13;
+    padding-top: 0;
+  }
+
+  .profile__label {
+    margin: 0;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    line-height: 1.4;
+  }
+
+  .profile h2 {
+    margin: 0.4rem 0 0;
+    font-family: $mincho;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  .profile__name {
+    margin: 1.5rem 0 0;
+    font-family: $mincho;
+    font-size: 1.15rem;
+    line-height: 1.6;
+
+    span {
+      display: inline-block;
+      margin-left: 0.75rem;
+      color: $paper;
+      font-family: $gothic;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+    }
+  }
+
+  .profile__lead {
+    margin: 2rem 0 0;
+    font-family: $mincho;
+    font-size: 1.35rem;
+    font-weight: 500;
+    line-height: 2.1;
+  }
+
+  .profile__copy p:not(.profile__lead) {
+    margin: 1.25rem 0 0;
+    max-width: 38em;
+    color: $paper;
+  }
+
+  .timeline {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+    margin: 3rem 0 0;
+    padding: 1rem 0 0;
+    list-style: none;
+    border-top: 1px solid rgba($paper, 0.2);
+  }
+
+  .timeline li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .timeline__year {
+    font-family: $serif;
+    font-size: 1.75rem;
+    line-height: 1;
+  }
+
+  .timeline__text {
+    color: $paper;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .services {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    margin: 2rem 0 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      padding: 0 1rem;
+      border-left: 1px solid rgba($paper, 0.2);
+      font-size: 13px;
+      letter-spacing: 0.12em;
+      line-height: 1;
+
+      &:first-child {
+        padding-left: 0;
+        border-left: 0;
+      }
+    }
+  }
+
+  @include tablet {
+    .profile {
+      padding-bottom: 4rem;
+    }
+
+    .profile__grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .profile__photo,
+    .profile__body {
+      grid-column: auto;
+    }
+
+    .profile__photo {
+      margin-top: 0;
+    }
+
+    .profile__body {
+      padding-top: 0;
+    }
+
+    .profile__lead {
+      font-size: 1.15rem;
+    }
+
+    .timeline {
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem 1rem;
+    }
+  }
+</style>

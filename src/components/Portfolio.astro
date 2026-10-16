@@ -1,0 +1,389 @@
+---
+import { Image } from 'astro:assets';
+import { categories } from '../data/data';
+
+const pad = (value: number) => String(value).padStart(2, '0');
+---
+
+<section class="works" id="works">
+  <h2 class="visually-hidden">作品</h2>
+  <div class="works__stage">
+    <div class="works__reel">
+  {
+    categories.map((category, categoryIndex) => (
+      <article class="chapter" data-chapter={category.id}>
+        <div class="chapter__pin">
+          <div class="chapter__head">
+            <p class="chapter__index">{pad(categoryIndex + 1)}</p>
+            <h3>{category.en}</h3>
+            <p class="chapter__ja">{category.ja}</p>
+            <p class="chapter__count">{category.images.length}点</p>
+          </div>
+          <div class="chapter__viewport">
+            <div class="chapter__track" data-lenis-prevent-touch>
+              {category.images.map((image, imageIndex) => {
+                const label = `${category.en} ${pad(imageIndex + 1)}`;
+                return (
+                  <figure class="chapter__figure">
+                    <button
+                      class="chapter__open"
+                      type="button"
+                      data-full={image.src}
+                      data-caption={label}
+                    >
+                      <span class="chapter__media">
+                        <Image
+                          class="chapter__photo"
+                          src={image}
+                          alt={label}
+                          widths={[640, 1200, 1800]}
+                          sizes="(max-width: 1024px) 86vw, 70vh"
+                          loading="lazy"
+                        />
+                      </span>
+                      <span class="chapter__caption">{label}</span>
+                    </button>
+                  </figure>
+                );
+              })}
+            </div>
+          </div>
+          <p class="chapter__hint">横に送る</p>
+        </div>
+      </article>
+    ))
+  }
+    </div>
+  </div>
+</section>
+
+<div class="viewer" role="dialog" aria-modal="true" aria-hidden="true" aria-label="作品">
+  <button class="viewer__backdrop" type="button" aria-label="閉じる"></button>
+  <button class="viewer__close" type="button">Close</button>
+  <button class="viewer__prev" type="button" aria-label="前の作品"></button>
+  <button class="viewer__next" type="button" aria-label="次の作品"></button>
+  <figure class="viewer__figure">
+    <img class="viewer__img" alt="" />
+    <figcaption class="viewer__caption"></figcaption>
+  </figure>
+</div>
+
+<style lang="scss">
+  .works,
+  .works__stage,
+  .works__reel,
+  .chapter,
+  .chapter__pin {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .works,
+  .works__stage {
+    position: relative;
+    z-index: 1;
+    overflow-x: clip;
+  }
+
+  .works {
+    background: $ink;
+    color: $paper;
+    scroll-margin-top: var(--header-h);
+  }
+
+  .chapter {
+    position: relative;
+    z-index: 1;
+  }
+
+  .chapter__pin {
+    display: grid;
+    grid-template-columns: minmax(0, 280px) minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    column-gap: 24px;
+    height: 100svh;
+    box-sizing: border-box;
+    padding: var(--header-h) 0 1.5rem var(--page-pad);
+    overflow-x: clip;
+  }
+
+  .chapter__head {
+    grid-row: 1 / -1;
+    align-self: end;
+    padding-bottom: 1.75rem;
+
+    h3 {
+      margin: 0.25rem 0 0;
+      font-family: $mincho;
+      font-size: 1.75rem;
+      font-weight: 500;
+      line-height: 1.3;
+    }
+  }
+
+  .chapter__index {
+    margin: 0;
+    font-family: $serif;
+    font-size: clamp(4rem, 8vw, 7rem);
+    line-height: 0.85;
+  }
+
+  .chapter__ja,
+  .chapter__count,
+  .chapter__caption,
+  .chapter__hint {
+    margin: 0;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    line-height: 1.4;
+  }
+
+  .chapter__ja {
+    margin-top: 0.35rem;
+  }
+
+  .chapter__count {
+    margin-top: 1rem;
+    color: rgba($paper, 0.62);
+  }
+
+  .chapter__viewport {
+    grid-row: 1 / -1;
+    min-width: 0;
+    max-width: 100%;
+    overflow: clip;
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .chapter__track {
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    height: 100%;
+    width: max-content;
+    padding-right: var(--page-pad);
+  }
+
+  .chapter__figure {
+    flex: 0 0 auto;
+    margin: 0;
+  }
+
+  .chapter__open {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .chapter__media {
+    display: flex;
+    align-items: flex-end;
+    height: 62vh;
+    overflow: hidden;
+  }
+
+  .chapter__photo {
+    height: 100%;
+    width: auto;
+    max-width: none;
+    object-fit: contain;
+    transform: scale(1);
+  }
+
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    .chapter__photo {
+      transition: transform 0.6s ease;
+    }
+
+    .chapter__open:hover .chapter__photo,
+    .chapter__open:focus-visible .chapter__photo {
+      transform: scale(1.02);
+    }
+  }
+
+  .chapter__hint {
+    display: none;
+  }
+
+  .viewer {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .viewer.is-open {
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .viewer__backdrop {
+    position: absolute;
+    inset: 0;
+    border: 0;
+    background: rgba($ink, 0.92);
+    cursor: pointer;
+  }
+
+  .viewer__figure {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    height: 100%;
+    margin: 0;
+    pointer-events: none;
+  }
+
+  .viewer__img {
+    max-width: 90vw;
+    max-height: 86vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .viewer__caption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 1.25rem;
+    margin: 0;
+    color: $paper;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-align: center;
+  }
+
+  .viewer__close,
+  .viewer__prev,
+  .viewer__next {
+    position: absolute;
+    z-index: 2;
+    border: 0;
+    background: transparent;
+    color: $paper;
+    cursor: pointer;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .viewer__close {
+    top: 1.25rem;
+    right: var(--page-pad);
+  }
+
+  .viewer__prev,
+  .viewer__next {
+    top: 50%;
+    width: 44px;
+    height: 44px;
+    transform: translateY(-50%);
+  }
+
+  .viewer__prev {
+    left: 0.5rem;
+  }
+
+  .viewer__next {
+    right: 0.5rem;
+  }
+
+  .viewer__prev::before,
+  .viewer__next::before {
+    content: '';
+    display: block;
+    width: 18px;
+    height: 18px;
+    margin: 0 auto;
+    border-top: 1px solid $paper;
+    border-left: 1px solid $paper;
+  }
+
+  .viewer__prev::before {
+    transform: rotate(-45deg);
+  }
+
+  .viewer__next::before {
+    transform: rotate(135deg);
+  }
+
+  @include desktop {
+    .works__stage {
+      height: 100svh;
+      overflow: hidden;
+    }
+
+    .works__reel,
+    .chapter__track {
+      will-change: transform;
+    }
+  }
+
+  @include tablet {
+    .chapter__pin {
+      display: block;
+      height: auto;
+      padding: 4.5rem var(--page-pad) 3rem;
+    }
+
+    .chapter__head {
+      padding-bottom: 1.25rem;
+    }
+
+    .chapter__viewport {
+      display: block;
+      overflow: clip;
+      height: auto;
+    }
+
+    .chapter__track {
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+      margin-inline: 0;
+      padding: 0 0 8px;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .chapter__figure {
+      width: 86%;
+      flex: 0 0 86%;
+      scroll-snap-align: start;
+    }
+
+    .chapter__media {
+      height: auto;
+      width: 100%;
+    }
+
+    .chapter__photo {
+      width: 100%;
+      height: auto;
+      max-height: 68vh;
+    }
+
+    .chapter__hint {
+      display: block;
+      margin-top: 12px;
+      color: rgba($paper, 0.62);
+    }
+
+    .chapter__hint.is-hidden {
+      display: none;
+    }
+  }
+</style>

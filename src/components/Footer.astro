@@ -1,0 +1,35 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/h1_logo.png';
+---
+
+<footer class="footer">
+  <Image src={logo} alt="" height={28} densities={[1, 2]} />
+  <p>© {new Date().getFullYear()} AONO STUDIO</p>
+</footer>
+
+<style lang="scss">
+  .footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.5rem var(--page-pad);
+    background: $ink;
+    border-top: 1px solid rgba($paper, 0.16);
+
+    img {
+      height: 28px;
+      width: auto;
+      filter: brightness(0) invert(1);
+    }
+
+    p {
+      margin: 0;
+      color: $mute;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      line-height: 1.4;
+    }
+  }
+</style>
